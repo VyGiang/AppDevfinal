@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        APPDEV 2021
+    </title>
+</head>
+<script>
+    function getdata() {
+        fetch('http://www.cc.puv.fi/~e2000576/record.txt')
+            .then(r => r.text())
+            .then(data => dispdata(data))
+    };
+    function dispdata(d) {
+        var ctt = document.getElementById("data");
+        var can = document.getElementById("chart");
+        var ctx = fetchcan.getContext('2d');
+        ctx.lineWidth = 20;
+        var lines = d.split("\n");
+        var i = 0;
+        while (typeof lines[0] !== "undefined") {
+            var line = lines.shift();
+            var split = lines.split(' ');
+            ctt.innerHTML += line + "<br/>";
+            ctx.strokestyle = '#FFB6C1';
+            ctx.beginPath();
+            ctx.moveTo(i * 50 + 10, 400 - 10 - parseInt(split[2]) * 3);
+            ctx.stroke();
+            ctx.strokestyle = 'green';
+            ctx.beginPath();
+            ctx.moveTo(i * 50 + 30, 400 - 10);
+            ctx.moveTo(i * 50 + 30, 400 - 10 - parseInt(split[3]) * 3);
+            ctx.stroke();
+            i++;
+        }
+    }
+</script>
+
+<body onload=getdata ()>
+    <p id="data"></p>
+    <canvas id="chart" height="400" width=1000 style="border:solid 3px green"></canvas>
+</body>
+
+</html>
